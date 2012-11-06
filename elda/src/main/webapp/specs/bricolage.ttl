@@ -1,0 +1,291 @@
+#
+# API endpoints for accessing the data at the bricolage SPARQL endpoint
+# ${sparql.url}
+
+@prefix spec: <http://data.bris.ac.uk/penguin/api#> .
+
+@prefix api:     <http://purl.org/linked-data/api/vocab#> .
+
+@prefix dc:      <http://purl.org/dc/terms/> .
+@prefix geo:     <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix hub:    <http://data.archiveshub.ac.uk/def/> .
+
+@prefix spatialrelations:  <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/> .
+
+
+@prefix extras: <http://www.epimorphics.com/vocabularies/lda#> .
+@prefix ids: <http://data.bris.ac.uk/id/penguin>.
+
+#VIEWERS
+
+spec:viewerNone a api:Viewer
+    ; api:name "none"
+    .
+
+spec:viewerShort a api:Viewer 
+    ; api:name "short" 
+    ; api:property 
+        rdf:type, rdfs:label
+    .
+
+spec:viewerMedium a api:Viewer 
+    ; api:name "medium" 
+    ; api:properties "type.label"
+    ; api:property 
+        rdfs:label, hub:scopecontent, dc:date, hub:extent, hub:associatedWith, hub:level, dc:isPartOf, geo:lat, geo:long
+    .
+
+#
+# API DESCRIPTION
+#
+
+<${sparql.url}> extras:supportsNestedSelect false.
+
+spec:api a api:API 
+    ; rdfs:label "Bricolage API"@en
+    ; api:maxPageSize "50"
+    ; api:defaultPageSize "10" 
+    ; api:sparqlEndpoint <${sparql.url}>
+    ; rdfs:comment "An API around sparql-provided Penguin Books Archive education data held at the University of Bristol."
+    ; extras:enableETags true
+    # ; extras:describeAllLabel skos:prefLabel
+    #
+    # normally constructed URIs (for views, formatters, metadata, etc) are based
+    # on the context root of the request. If api:base is set, then it is used as
+    # the root instead.
+    #
+    # ; api:base "http://data.bris.ac.uk/" 
+    #
+    # activeImageBase is used by the stylesheet to specify the server-relative
+    # location for active image icons; likewise inactiveImageBase for inactive
+    # icons. _resourceRoot is used as the (possibly relative) root for URIs
+    # constructed by the stylesheet for possibly-shared resources. webapp is
+    # the webapp root name.
+    #
+	; api:variable
+		[api:name "activeImageBase"; api:value "/elda/images/green/16x16"]
+		, [api:name "inactiveImageBase"; api:value "/elda/images/grey/16x16"]
+		, [api:name "_resourceRoot"; api:value "/elda/"]
+		, [api:name "webapp"; api:value "/elda"]
+	#
+	# the default html formatter invokes the XSLT stylesheet. It will normally
+	# be pulled in by a browsers default accept-header, but it can be specified
+	# explicitly using the .html suffix on the URI path.
+	#
+	; api:formatter 
+		[a api:XsltFormatter
+		; api:name 'html'
+		; api:stylesheet 'xsltsheets/result-osm.xsl' 
+        # ; api:stylesheet 'xsltsheets/ashtml.xsl'    
+		; extras:metadataOptions "bindings,formats,versions,execution"
+		; api:mimeType 'text/html; charset=utf-8'
+		] 
+	#
+	# as an alternative, a non-default html formatter with the name
+	# 'plainhtml' produces a very simple html rendering of the view.
+	#
+	# the turtle, rdf/xml, and json renderers are builtin and don't
+	# need specification in this config file.
+	#
+	; api:formatter
+		[a api:HtmlFormatter
+		; extras:className "com.epimorphics.lda.demo.Demo_HTML_RendererFactory"
+		; api:name "plainhtml"
+		; api:mimeType 'text/htmlx'
+		]
+	#
+	# a bunch of endpoints.
+	#
+	; api:endpoint 
+		spec:archivalResources,
+		spec:resource-by-id,
+		spec:agent-by-id,
+		spec:extent-by-id,
+		spec:concept-by-id,
+		spec:fonds
+	#
+	# Magic variables.
+	#
+	# _suppress_ipto, if set to "yes", causes the isPrimaryTopicOf item
+	# endpoints to be suppressed, to avoid tickling a stylesheet infelicity.
+	#
+	; api:variable [api:name "_suppress_ipto"; api:value "no"]
+    #
+    # causes property names starting "hasX", with some capital letter
+    # 'X', to start with 'x' instead, to bypass a stylesheet infelicity.
+    #
+    ; api:variable [api:name "_strip_has"; api:value "yes"]        
+    #
+    # don't suppress media-type selection of renderer
+    # (if you need to, set it to "yes")
+    #
+    ; api:variable [api:name "_supress_media_type"; api:value "no"]
+    .
+    	
+#ENDPOINTS
+
+spec:echo-selector
+     api:where "BIND (?var AS ?item)" ;
+     .
+
+spec:resource-by-id
+	a api:ItemEndpoint
+	; api:exampleRequestPath "/penguin/id/archivalresource/gb-3-dm2141"
+	; api:exampleRequestPath "/penguin/id/findingaid/dm1919"
+	; api:exampleRequestPath "/penguin/id/repository/gb3"
+	; api:uriTemplate "/penguin/id/{type}/{id}"
+	; api:variable [
+     	api:name "var" ;
+     	api:value "${linked.data.stem.url}/penguin/id/{type}/{id}" ;
+     	api:type rdfs:Resource ;
+   	]
+	; api:selector spec:echo-selector
+	; api:viewer api:describeViewer
+	.
+
+spec:agent-by-id
+	a api:ItemEndpoint
+	; api:exampleRequestPath "/penguin/id/person/ncarules/cinamongeralddesigner"
+	; api:exampleRequestPath "/penguin/id/organisation/ncarules/ukpenguinbooks1935-"
+	; api:exampleRequestPath "/penguin/id/agent/gb3/hamishhamilton"
+	; api:uriTemplate "/penguin/id/{type}/{org}/{id}"
+	; api:variable [
+     	api:name "var" ;
+     	api:value "${linked.data.stem.url}/penguin/id/{type}/{org}/{id}" ;
+     	api:type rdfs:Resource ;
+   	]
+	; api:selector spec:echo-selector
+	; api:viewer api:describeViewer
+	.
+
+spec:extent-by-id
+	a api:ItemEndpoint
+	; api:exampleRequestPath "/penguin/id/extent/archbox/23"
+	; api:uriTemplate "/penguin/id/extent/{type}/{id}"
+	; api:variable [
+     	api:name "var" ;
+     	api:value "${linked.data.stem.url}/penguin/id/extent/{type}/{id}" ;
+     	api:type rdfs:Resource ;
+   	]
+	; api:selector spec:echo-selector
+	; api:viewer api:describeViewer
+	.
+
+spec:concept-by-id
+	a api:ItemEndpoint
+	; api:exampleRequestPath "/penguin/id/concept/organisation/ncarules/ukpenguinbooks1935-"
+	; api:uriTemplate "/penguin/id/concept/{type}/ncarules/{id}"
+	; api:variable [
+     	api:name "var" ;
+     	api:value "${linked.data.stem.url}/penguin/id/concept/{type}/ncarules/{id}" ;
+     	api:type rdfs:Resource ;
+   	]
+	; api:selector spec:echo-selector
+	; api:viewer api:describeViewer
+	.
+
+spec:fonds
+	a api:ItemEndpoint
+	; api:exampleRequestPath "/penguin/id/level/fonds"
+	; api:uriTemplate "/penguin/id/level/fonds"
+	; api:viewer api:describeViewer
+	.
+
+#List all
+
+spec:archivalResources
+	a api:ListEndpoint
+	; rdfs:comment "This endpoint displays any kind of Archival Resource." 
+	; api:uriTemplate "/penguin/archivalresources" 
+	; api:selector [ api:filter "type=ArchivalResource" ] 
+	; api:defaultViewer spec:viewerMedium 
+	; api:viewer spec:viewerShort
+	; api:viewer spec:viewerMedium
+	; api:viewer spec:viewerNone
+	; api:viewer [ 
+		api:name "geo" ;
+		api:property rdf:type, rdfs:label, geo:lat, geo:long
+	]
+	.
+
+#
+# VOCABULARY
+#
+# The vocabulary declarations say which properties can be used in queries
+# and by what short name those properties are known. If property P with short
+# name Q has range type T, then a query parameters Q=V is translated to
+# a WHERE clause fragment ?item P V' where V' is a literal which is V
+# with type T. This is especially important for numbers and booleans.
+# 
+
+rdf:type
+    api:label "type"
+    ; rdfs:range rdfs:Class
+    .
+  
+rdfs:label a rdf:Property
+    ; api:label "label" 
+    .
+      
+api:definition a rdf:Property
+    ; api:label "definition"
+    .  
+
+geo:lat
+      api:label "lat" .
+
+spatialrelations:northing
+      a       owl:DatatypeProperty ;
+      rdfs:range xsd:int ;
+      api:label "northing" .
+
+geo:long
+      api:label "long" .
+
+spatialrelations:easting
+      a       owl:DatatypeProperty ;
+      rdfs:range xsd:int ;
+      api:label "easting" .
+
+dc:date
+	# a owl:DatatypeProperty
+	# ; rdfs:range xsd:date
+    api:label "date" 
+    .
+
+dc:identifier
+    api:label "identifier" 
+    .
+
+hub:archbox
+    api:label "archbox" ;
+    rdfs:range xsd:decimal
+    .
+
+hub:ArchivalResource
+	api:label "ArchivalResource" .
+
+hub:Repository
+	api:label "Repository" .
+	
+hub:FindingAid
+	api:label "FindingAid" .
+
+hub:Extent
+	api:label "Extent" .
+	
+foaf:Person
+	api:label "Person" .
+
+foaf:focus
+	api:label "focus";
+	rdfs:range rdfs:Class .
+	
+skos:Concept
+	api:label "Concept" .
