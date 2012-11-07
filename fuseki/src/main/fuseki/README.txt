@@ -6,12 +6,12 @@ Starting the Fuseki service
 
 Set the ENV variables
 
-> . config/env
+    > . config/env
 
 Start fuseki (on port 3030, using config/config-tdb.ttl)
 
-> cd server
-> ./fuseki start
+    > cd server
+    > ./fuseki start
 
 
 Configuration

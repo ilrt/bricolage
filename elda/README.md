@@ -3,8 +3,8 @@ http://bricolage.ilrt.bris.ac.uk/
 
 Build war:
 
-> mvn clean
-> mvn package [-Pprod]
+    > mvn clean
+    > mvn package [-Pprod]
 
 Default profile: localhost
 

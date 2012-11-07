@@ -3,8 +3,8 @@ http://bricolage.ilrt.bris.ac.uk/
 
 Build bundle:
 
-> mvn clean
-> mvn assembly:single [-Pprod]
+    > mvn clean
+    > mvn assembly:single [-Pprod]
 
 Default profile: localhost
 
