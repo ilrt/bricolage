@@ -1,0 +1,37 @@
+<assembly>
+	<id>bundle</id>
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<dependencySets>
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<includes>
+				<include>org.apache.jena:jena-fuseki:jar:server</include>
+			</includes>
+			<outputDirectory>bricol-fuseki/server</outputDirectory>
+			<outputFileNameMapping>fuseki-server.jar</outputFileNameMapping>
+		</dependencySet>
+	</dependencySets>
+	<fileSets>
+		<fileSet>
+			<directory>src/main/fuseki/config</directory>
+			<filtered>true</filtered>
+			<outputDirectory>bricol-fuseki/config</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/fuseki/server</directory>
+			<filtered>false</filtered>
+			<outputDirectory>bricol-fuseki/server</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/fuseki</directory>
+			<includes>
+				<include>README.txt</include>
+			</includes>
+			<filtered>false</filtered>
+			<outputDirectory>bricol-fuseki</outputDirectory>
+		</fileSet>
+	</fileSets>
+</assembly>

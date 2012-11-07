@@ -1,0 +1,1 @@
+export FUSEKI_ARGS='--config=../config/config-tdb.ttl'
