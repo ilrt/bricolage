@@ -1,4 +1,4 @@
-Deployment package for Elda as used by the Bricolage project
+Packaging for Elda for deployment, as used by the Bricolage project
 http://bricolage.ilrt.bris.ac.uk/
 
 Build war:
