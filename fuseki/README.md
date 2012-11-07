@@ -10,9 +10,9 @@ Default profile: localhost
 
 Configuration
 -------------
-- src/main/filters/filter-<env>.properties
+- src/main/assembly/filter-<env>.properties
     Per-environment properties
     
-- src/main/webapp/specs/bricolage.ttl
-    Linked Data API settings.
+- src/main/fuseki/config/config-tdb.ttl
+    Fuseki settings to be distributed in bundle
 

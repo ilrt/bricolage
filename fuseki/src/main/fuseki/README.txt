@@ -12,3 +12,9 @@ Start fuseki (on port 3030, using config/config-tdb.ttl)
 
 > cd server
 > ./fuseki start
+
+
+Configuration
+-------------
+config/config-tdb.ttl
+    TDB-backed fuseki settings
