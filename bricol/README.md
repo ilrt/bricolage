@@ -17,5 +17,6 @@ Configuration
     Basic security settings
     
 - src/main/resources
-	Add CALM-exported authority.xml file here if you have one
+	ead2rdf-nons.xsl - EAD to RDF transformation stylesheet 
+	If you have a CALM-exported authority.xml file you can add it to this folder before build
 
