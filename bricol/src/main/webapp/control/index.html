@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Penguin Archive Linked Data</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Le styles -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bricolage.css" rel="stylesheet">
+<style type="text/css">
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+</style>
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<!-- Le fav and touch icons -->
+<link rel="shortcut icon" href="img/favicon.ico">
+</head>
+
+<body>
+
+	<div class="modal hide" id="viafModal">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">×</button>
+			<h3>VIAF lookup</h3>
+		</div>
+		<div class="modal-body"></div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">Close</a> <a href="#"
+				id="btn-link-save" class="btn btn-primary">Add</a>
+		</div>
+	</div>
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<span class="brand">Penguin Archive Linked Data</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+
+		<div class="hero-unit">
+			<p>Management console for Penguin Archive Linked Data publishing</p>
+		</div>
+
+		<div class="row">
+			<div class="span6">
+				<div class="well">
+					<h4>Upload new CALM export file (EAD XML format)</h4>
+					<form class="form-inline" enctype="multipart/form-data"
+						method="post" name="fileinfo">
+						<input type="file" name="file" required />
+						<button id="btn-upload" class="btn">Upload</button>
+					</form>
+					<p>
+						<span class="label label-important">Important</span> The Archive
+						ID is constructed from the filename. An existing EAD file of the
+						same name will be overwritten.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="span8">
+
+				<div class="well">
+					<h4>Links to Third-Party Data</h4>
+
+					<p>
+						<span class="label label-info">Note</span> These entities are
+						drawn only from data that has been successfully published.
+					</p>
+
+					<div class="accordion" id="accordion2">
+						<div class="accordion-group">
+							<div class="accordion-heading">
+								<a class="btn-list-people accordion-toggle"
+									data-toggle="collapse" data-parent="#accordion2"
+									href="#collapseOne"><i class="icon-chevron-down"></i>People</a>
+							</div>
+							<div id="collapseOne" class="accordion-body collapse"
+								style="height: 0px;">
+								<div class="accordion-inner">
+									<div class="row">
+										<div class="span2">
+											<h3>Person</h3>
+										</div>
+										<div class="span2">
+											<h3>Published</h3>
+										</div>
+										<div class="span3">
+											<h3>SameAs</h3>
+										</div>
+									</div>
+									<div id="personList"></div>
+									<button class="btn-list-people btn">
+										<i class="icon-refresh"></i>Refresh people list
+									</button>
+									<img id="list-people-working" src="img/throbber.gif" style="display: none;"/>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="span4">
+				<div class="well">
+					<h4>Clear Published Linked Data cache</h4>
+					<p>
+						<span class="label label-info">Note</span> You only need to clear
+						the cache when you overwrite already published data.
+					</p>
+					<button id="btn-clear-ld-cache" class="btn">Clear cache</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="alert alert-success" style="display: none;">
+			<button class="close">×</button>
+			<span id='alert-success-text'></span>
+		</div>
+
+		<div class="alert alert-info" style="display: none;">
+			<button class="close">×</button>
+			<span id='alert-info-text'></span>
+		</div>
+
+		<div class="alert alert-working" style="display: none;">
+			<img src="img/throbber.gif" /> <span id='alert-working-text'></span>
+		</div>
+
+		<div class="alert alert-error" style="display: none;">
+			<button class="close">×</button>
+			<span id='alert-error-text'></span>
+		</div>
+
+		<div class="accordion" id="accordion-archive-list">
+			<div class="accordion-group">
+				<div class="accordion-heading">
+					<a class="accordion-toggle" data-toggle="collapse"
+						data-parent="#accordion-archive-list" href="#collapseArchiveList"><i
+						class="icon-chevron-down"></i>Archives</a>
+				</div>
+				<div id="collapseArchiveList" class="accordion-body collapse"
+					style="height: 0px;">
+					<div class="accordion-inner">
+						<div class="row">
+							<div class="span3">
+								<h3>Archive ID</h3>
+							</div>
+							<div class="span1">
+								<span class="label">Upload date</span>
+							</div>
+							<div class="span1">
+								<h3>EAD</h3>
+							</div>
+							<div class="span1">
+								<h3>RDF</h3>
+							</div>
+							<div class="span5">
+								<h3>Published Linked Data</h3>
+							</div>
+						</div>
+
+						<div id='list'></div>
+
+						<button id="btn-list-archives" class="btn">
+							<i class="icon-refresh"></i>Refresh archive list
+						</button>
+						<img id="list-archives-working" src="img/throbber.gif" style="display: none;"/>
+						<span id="list-archives-working-slowly" style="display: none;">This operation can take some time, especially at first. Please be patient...</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<footer>
+			<p>&copy; University of Bristol 2012</p>
+		</footer>
+
+	</div>
+	<!-- /container -->
+
+	<!-- Le javascript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script type="text/javascript"
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/bricolage.js"></script>
+</body>
+</html>

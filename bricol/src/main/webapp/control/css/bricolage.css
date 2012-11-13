@@ -1,0 +1,21 @@
+.hero-unit {
+	padding: 20px;
+}
+
+#list {
+	padding-bottom: 70px;
+}
+
+.popover-inner {
+	width: 500px;
+}
+
+.row {
+	padding-bottom: 2px;
+}
+
+.alert {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+}
