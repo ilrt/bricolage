@@ -1,4 +1,4 @@
-Packaging for Elda for deployment, as used by the Bricolage project
+Packaging for deployment of Bricol control webapp, as used by the Bricolage project
 http://bricolage.ilrt.bris.ac.uk/
 
 Build war:
@@ -13,6 +13,6 @@ Configuration
 - src/main/filters/filter-<env>.properties
     Per-environment properties
     
-- src/main/webapp/specs/bricolage.ttl
-    Linked Data API settings.
+- src/main/webapp/WEB-INF/web.xml
+    Basic security settings
 
