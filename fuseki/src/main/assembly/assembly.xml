@@ -22,6 +22,20 @@
 		</fileSet>
 		<fileSet>
 			<directory>src/main/fuseki/server</directory>
+			<excludes>
+				<exclude>fuseki</exclude>
+				<exclude>s-*</exclude>
+			</excludes>
+			<filtered>false</filtered>
+			<outputDirectory>bricol-fuseki/server</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/fuseki/server</directory>
+			<includes>
+				<include>fuseki</include>
+				<include>s-*</include>
+			</includes>
+			<fileMode>0755</fileMode>
 			<filtered>false</filtered>
 			<outputDirectory>bricol-fuseki/server</outputDirectory>
 		</fileSet>
