@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ilrt.bricolage</groupId>
 	<artifactId>bricol-fuseki</artifactId>
-	<version>0.3</version>
+	<version>0.5</version>
 	<name>bricol-fuseki</name>
 
 	<dependencies>
