@@ -1,4 +1,4 @@
-Packaging for Fuseki for deployment, as used by the Bricolage project
+Deployment packaging for Fuseki, as used by the Bricolage project
 http://bricolage.ilrt.bris.ac.uk/
 
 Build bundle:
