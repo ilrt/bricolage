@@ -1,7 +1,7 @@
 Bricolage
 ---------
 
-EAD Linked Data management and publishing.
+Encoded Archival Description (EAD) Linked Data management and publishing.
 
 Software output of the 2012 JISC-funded Bricolage project, undertaken by the University of Bristol.
 http://bricolage.ilrt.bris.ac.uk/
