@@ -7,7 +7,6 @@ public class Defaults {
 	public static final String RDF_SUFFIX = ".rdf";
 
 	// classpath resources
-	public static final String CLASSPATH_RESOURCES = "org/ilrt/bricolage/resources/";
 	public static final String EAD_DTD = "ead.dtd";
 	public static final String EAD_XSL_DEFAULT = "ead2rdf-nons.xsl";
 	public static final String AUTHORITY = "authority.xml";

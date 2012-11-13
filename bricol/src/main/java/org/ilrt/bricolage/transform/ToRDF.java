@@ -53,8 +53,7 @@ public class ToRDF {
 		// load the default xslt from the classpath
 		ClassLoader classLoader = Thread.currentThread()
 				.getContextClassLoader();
-		URL fileURL = classLoader.getResource(Defaults.CLASSPATH_RESOURCES
-				+ Defaults.EAD_XSL_DEFAULT);
+		URL fileURL = classLoader.getResource(Defaults.EAD_XSL_DEFAULT);
 		String systemID = fileURL.toExternalForm();
 
 		fromEADPath(sourceID, filename, systemID);

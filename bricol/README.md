@@ -15,4 +15,7 @@ Configuration
     
 - src/main/webapp/WEB-INF/web.xml
     Basic security settings
+    
+- src/main/resources
+	Add CALM-exported authority.xml file here if you have one
 

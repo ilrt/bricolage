@@ -30,14 +30,9 @@ public class DataManager {
 		File dtd = new File(Config.DATA_FOLDER + File.separator
 				+ Defaults.EAD_DTD);
 		if (!dtd.exists()) {
-			FileUtils.copyInputStreamToFile(
-					this.getClass()
-							.getClassLoader()
-							.getResourceAsStream(
-									Defaults.CLASSPATH_RESOURCES
-											+ Defaults.EAD_DTD), new File(
-							Config.DATA_FOLDER + File.separator
-									+ Defaults.EAD_DTD));
+			FileUtils.copyInputStreamToFile(this.getClass().getClassLoader()
+					.getResourceAsStream(Defaults.EAD_DTD), new File(
+					Config.DATA_FOLDER + File.separator + Defaults.EAD_DTD));
 		}
 	}
 
@@ -80,7 +75,8 @@ public class DataManager {
 			try {
 				instance = new DataManager();
 			} catch (IOException e) {
-				throw new DataManagerException("Error initing DataManager: " + e.getLocalizedMessage());
+				throw new DataManagerException("Error initing DataManager: "
+						+ e.getLocalizedMessage());
 			}
 		}
 		return instance;
